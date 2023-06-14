@@ -1,0 +1,83 @@
+import java.util.*;
+import java.io.*;
+
+public class FunWithHistograms {
+    public static void main(String[] args) throws FileNotFoundException{
+        Scanner s = new Scanner(System.in);
+        intro();
+        int[] arrayData = dataReader(s);
+        int[] occurences = valueOccurences(arrayData);
+        histogram (occurences);
+        conclusion(arrayData, occurences);
+
+    }
+    public static void intro(){
+        System.out.println("The program will analyze data from a dataset of");
+        System.out.println("non-negative integer values. It will produce a");
+        System.out.println("histogram of the data and output some statistics.");
+        System.out.println();
+    }
+    public static int[] dataReader(Scanner s) throws FileNotFoundException {
+        System.out.print("input file name? ");
+        String fName = s.nextLine();
+        Scanner z = new Scanner(new File(fName));
+        System.out.println();
+        
+        int amountVal = z.nextInt();
+        int[] values = new int[amountVal];
+        for (int i = 0; i < amountVal; i++){
+            values[i] = z.nextInt();
+        }
+        return values;
+    }
+    public static int[] valueOccurences(int[] arrayData) {
+        int max = maxVal (arrayData);
+        int [] occurences = new int[arrayData[max] + 1];
+        for (int k = 0; k < occurences.length; k++){
+            for (int l = 0; l < arrayData.length; l++){
+                if (arrayData[l] == k){
+                    occurences[k] += 1;
+                }
+            }
+        }
+        return occurences;
+    }
+    public static int maxVal(int[] arrayData) {
+        int maximum = 0;
+        int areaCode = 0;
+        for(int g = 0; g < arrayData.length; g++){
+            if (arrayData[g] > maximum) {
+                maximum = arrayData[g];
+                areaCode = g;
+            }
+        }
+        return areaCode;
+    }
+    public static void histogram(int[] occurences) {
+        for (int f = 0; f < occurences.length; f++){
+            System.out.print(f + "| ");
+            for (int d = 0; d < occurences[f]; d++){
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+         System.out.println();
+    }
+    public static double average(int [] arrayData) {
+        int cumalative = 0;
+        for (int c = 0; c < arrayData.length; c++){
+            cumalative += arrayData[c];
+        }
+        double avg = (cumalative * 1.0) / arrayData.length;
+        return avg;
+    }
+    public static void conclusion(int [] arrayData, int[] occurences){
+        int grandTotal = arrayData.length;
+        double grandAvg = average(arrayData);
+        int grandMode = maxVal(occurences);
+        System.out.println("Num. Values: " + grandTotal);
+        System.out.println("Mean: " + grandAvg);
+        System.out.println("Mode: " + grandMode);
+    }
+
+}
